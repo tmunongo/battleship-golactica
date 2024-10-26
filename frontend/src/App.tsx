@@ -1,11 +1,28 @@
 import { Target } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 
 function App() {
   const GRID_SIZE = 10;
+  const SHIP_SIZES = [5, 4, 3, 2, 1];
+
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [gameState, setGameState] = useState({
+    playerBoard: Array(GRID_SIZE)
+      .fill()
+      .map(() => Array(GRID_SIZE).fill({ hasShip: false, hit: false })),
+    opponentBoard: Array(GRID_SIZE)
+      .fill()
+      .map(() => Array(GRID_SIZE).fill({ hit: false })),
+    currentTurn: 0,
+    playerIndex: null,
+    status: "connecting",
+    score: { hits: 0, misses: 0 },
+    gameOver: false,
+  });
+
   const [playerBoard, setPlayerBoard] = useState(
     Array(GRID_SIZE)
       .fill()
@@ -49,6 +66,19 @@ function App() {
     setPlayerBoard(newBoard);
     setSelectedCell(null);
   };
+
+  // create websocket connection
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8080/ws");
+
+    ws.onopen = () => {
+      setSocket(ws);
+      setGameState((prevState) => ({
+        ...prevState,
+        status: "connected",
+      }));
+    };
+  }, []);
 
   return (
     <div className="p-4 w-full max-w-4xl mx-auto">
