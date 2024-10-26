@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { Target } from "lucide-react";
+import React, { useState } from "react";
 import "./App.css";
+import { Button } from "./components/ui/button";
+import { Card } from "./components/ui/card";
 
 function App() {
   const GRID_SIZE = 10;
@@ -8,7 +11,10 @@ function App() {
       .fill()
       .map(() => Array(GRID_SIZE).fill("empty"))
   );
-  const [selectedCell, setSelectedCell] = useState(null);
+  const [selectedCell, setSelectedCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
 
   const getCellColor = (status) => {
     switch (status) {
@@ -26,7 +32,7 @@ function App() {
   };
 
   const handleCellClick = (rowIndex, colIndex) => {
-    setSelectedCell({ rowIndex, colIndex });
+    setSelectedCell({ row: rowIndex, col: colIndex });
   };
 
   const handleFire = () => {
