@@ -83,7 +83,7 @@ function App() {
   return (
     <div className="p-4 w-full max-w-4xl mx-auto">
       <Card className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Battlestar Golactica</h2>
+        <h2 className="text-2xl font-bold mb-4">Battleship Golactica</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Player board */}
@@ -121,7 +121,7 @@ function App() {
               <h3 className="font-bold mb-2">Selected target</h3>
               {selectedCell ? (
                 <p>
-                  Row: {selectedCell.row} x Col: {selectedCell.col}
+                  Row: {selectedCell.row + 1} x Col: {selectedCell.col + 1}
                 </p>
               ) : (
                 <p>Select a target cell</p>
